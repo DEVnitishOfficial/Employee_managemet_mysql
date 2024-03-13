@@ -26,13 +26,20 @@ router.route("/admin/adminlogin").post((req, res) => {
           { role: "admin", email: email },
           "admin_login_secret",
           {
-            expireIn: "1d",
+            expiresIn: "1d",
           }
         );
         res.cookie("token", token, cookieOptions);
-        return res.json({ loginStatus: true})
+        return res.status(200).json({ 
+          success:true,
+          message : "admin loggedIn successfully",
+          result
+        })
       }else{
-        return res.json({ loginStatus: false, Error: "wrong credentials" })
+        return res.status(400).json({
+           success: false,
+           message: "wrong credentials" 
+          })
       }
     }
   );

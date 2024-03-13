@@ -1,23 +1,39 @@
 import { useState } from 'react'
 import './style.css'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+
 function Login () {
+
   const [value, setValue] = useState({
     email : '',
     password : '',
   })
+  const [error,setError] = useState(null)
+  const navigate = useNavigate()
+  axios.defaults.withCredentials = true
 
   function handleSubmit(event){
     event.preventDefault()
     axios.post('http://localhost:3002/auth/admin/adminlogin',value)
-    .then(result => console.log(result))
-    .catch(error => console.log(error))
+    .then((result) => {
+      console.log('result>>',result)
+      if(result.data.success){
+        navigate("/admin/dashboard")
+      }
+    })
+    .catch((error) =>  {
+      setError(error.response.data.message)
+    })
   }
   return (
     <div className='loginPage flex justify-center items-center min-h-[100vh]'>
       <div className=''>
         <form onSubmit={handleSubmit}   action='email' className='loginForm'>
           <div className='max-w-md mx-auto p-6 border rounded-md'>
+          <div className='text-red-600'>
+           {error && error}
+        </div>
             <h1 className='text-3xl font-bold text-center text-white mb-6'>
               Login page
             </h1>
