@@ -45,4 +45,48 @@ router.route("/admin/adminlogin").post((req, res) => {
   );
 });
 
+router.route("/admin/add_category").post((req,res) => {
+  const sql = "INSERT INTO category (`name`) VALUES (?)"
+  dbConnection.query(sql,[req.body.category],(error,result) => {
+    if(error){
+      return (
+        res.status(400)
+        .json({
+          success:false,
+          message : `Got error from query, ${error}`
+        })
+      )
+    }else{
+      return(
+        res.status(200)
+        .json({
+          success:true,
+          message : "category created successfully",
+          data : result
+        })
+      )
+    }
+  })
+})
+
+router.route("/category").get((req,res) => {
+  const sql = "SELECT * FROM category";
+  dbConnection.query(sql,(error,result) => {
+    if(error){
+      return res.status(400)
+      .json({
+        success:false,
+        message : `Got error from category query ${error}`
+      })
+    }else{
+      return res.status(200)
+      .json({
+        success: true,
+        message: "Fetched category data successfully",
+        data : result
+      })
+    }
+  })
+})
+
 export { router as adminRouter };

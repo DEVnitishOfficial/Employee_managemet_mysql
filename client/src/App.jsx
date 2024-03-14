@@ -6,6 +6,7 @@ import Home from './components/Home'
 import Login from './components/Login'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import Profile from './components/Profile'
+import AddCategory from './components/AddCategory'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <Route path='/admin/dashboard/employee' element={<Employee />}></Route>
         <Route path='/admin/dashboard/category' element={<Category />}></Route>
         <Route path='/admin/dashboard/profile' element={<Profile />}></Route>
+        <Route path='/admin/dashboard/add_category' element={<AddCategory />}></Route>
         <Route path='' element={<Home />}></Route>
       </Route>
     </Routes>
