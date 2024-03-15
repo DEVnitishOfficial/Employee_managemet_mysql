@@ -1,6 +1,9 @@
 import express from "express";
 import dbConnection from "../utils/db.js";
 import jwt from "jsonwebtoken";
+import multer from 'multer'
+import bcrypt from 'bcrypt'
+import path from 'path'
 
 const router = express.Router();
 const cookieOptions = {
@@ -86,6 +89,53 @@ router.route("/category").get((req,res) => {
         data : result
       })
     }
+  })
+})
+
+// image upload 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'Public/Images')
+  },
+  filename: (req, file, cb) => {
+      cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+  }
+})
+const upload = multer({
+  storage: storage
+})
+
+router.route("/admin/add_employee").post(upload.single('image'), (req, res) => {
+  const sql = `INSERT INTO employee 
+  (name,email,password, address, salary,image, category_id) 
+  VALUES (?)`;
+  bcrypt.hash(req.body.password, 10, (err, hash) => {
+      if(err){
+        return res.status(400)
+        .json({
+          success:false,
+          message:"Got error from hashing password"
+        })
+      }
+      const values = [
+          req.body.name,
+          req.body.email,
+          hash,
+          req.body.address,
+          req.body.salary, 
+          req.file.filename,
+          req.body.category_id
+      ]
+      dbConnection.query(sql, [values], (err, result) => {
+          if(err){
+            return res.status(400)
+            .json({success:false,message:"Got error from sql query"})
+          }else{
+            return res.status(200)
+            .json({success: true, message:"added employee successfully",data:result})
+          }
+          
+      })
   })
 })
 
