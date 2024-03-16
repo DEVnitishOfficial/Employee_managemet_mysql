@@ -12,6 +12,7 @@ const cookieOptions = {
   secure: true,
 };
 
+// admin login
 router.route("/admin/adminlogin").post((req, res) => {
   const sql = "SELECT * from admin where email = ? and password = ? ";
 
@@ -48,6 +49,7 @@ router.route("/admin/adminlogin").post((req, res) => {
   );
 });
 
+// add employee category
 router.route("/admin/add_category").post((req,res) => {
   const sql = "INSERT INTO category (`name`) VALUES (?)"
   dbConnection.query(sql,[req.body.category],(error,result) => {
@@ -72,6 +74,7 @@ router.route("/admin/add_category").post((req,res) => {
   })
 })
 
+// fetch employee category details
 router.route("/category").get((req,res) => {
   const sql = "SELECT * FROM category";
   dbConnection.query(sql,(error,result) => {
@@ -92,7 +95,7 @@ router.route("/category").get((req,res) => {
   })
 })
 
-// image upload 
+// image upload of employee 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
       cb(null, 'Public/Images')
@@ -101,10 +104,12 @@ const storage = multer.diskStorage({
       cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
   }
 })
+
 const upload = multer({
   storage: storage
 })
 
+// add employee details
 router.route("/admin/add_employee").post(upload.single('image'), (req, res) => {
   const sql = `INSERT INTO employee 
   (name,email,password, address, salary,image, category_id) 
@@ -136,6 +141,27 @@ router.route("/admin/add_employee").post(upload.single('image'), (req, res) => {
           }
           
       })
+  })
+})
+
+// fetch employee details
+router.route("/employee_details").get((req,res) => {
+  const sql = "SELECT * FROM employee";
+  dbConnection.query(sql,(error,result) => {
+    if(error){
+      return res.status(400)
+      .json({
+        success:false,
+        message : `Got error from employee query ${error}`
+      })
+    }else{
+      return res.status(200)
+      .json({
+        success: true,
+        message: "Fetched category data successfully",
+        data : result
+      })
+    }
   })
 })
 

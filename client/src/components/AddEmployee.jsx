@@ -65,84 +65,84 @@ const AddEmployee = () => {
 
   return (
     <div className='flex justify-center items-center mt-3 '>
-      <div className='p-3 rounded w-96 border shadow-xl bg-indigo-100 '>
+      <div className='p-3 rounded md:min-w-[760px] min-w-96 border shadow-xl bg-indigo-100 '>
         <h3 className='text-center text-3xl font-bold text-yellow-500 animate'>
           Add Employee
         </h3>
 
         <form onSubmit={handleSubmit} className='grid grid-cols-1 gap-4'>
           <div>
-            <label htmlFor='inputName' className='block'>
-              Name
+            <label htmlFor='inputName' className='block text-xl font-semibold'>
+              Name :
             </label>
             <input
               type='text'
               id='inputName'
               placeholder='Enter Name'
-              className=' rounded '
+              className='rounded px-4 py-2 w-full text-lg '
               value={employee.name}
               onChange={e => handleChange(e, 'name')}
             />
           </div>
           <div>
-            <label htmlFor='inputEmail' className='block'>
+            <label htmlFor='inputEmail' className='block text-xl font-semibold'>
               Email
             </label>
             <input
               type='email'
               id='inputEmail'
               placeholder='Enter Email'
-              className='form-input rounded'
+              className='rounded px-4 py-2 w-full text-lg'
               value={employee.email}
               onChange={e => handleChange(e, 'email')}
             />
           </div>
           <div>
-            <label htmlFor='inputPassword' className='block'>
+            <label htmlFor='inputPassword' className='block text-xl font-semibold'>
               Password
             </label>
             <input
               type='password'
               id='inputPassword'
               placeholder='Enter Password'
-              className='form-input rounded'
+              className='rounded px-4 py-2 w-full text-lg'
               value={employee.password}
               onChange={e => handleChange(e, 'password')}
             />
           </div>
           <div>
-            <label htmlFor='inputSalary' className='block'>
+            <label htmlFor='inputSalary' className='block text-xl font-semibold'>
               Salary
             </label>
             <input
               type='text'
               id='inputSalary'
               placeholder='Enter Salary'
-              className='form-input rounded'
+              className='rounded px-4 py-2 w-full text-lg'
               value={employee.salary}
               onChange={e => handleChange(e, 'salary')}
             />
           </div>
           <div>
-            <label htmlFor='inputAddress' className='block'>
+            <label htmlFor='inputAddress' className='block text-xl font-semibold'>
               Address
             </label>
             <input
               type='text'
               id='inputAddress'
               placeholder='1234 Main St'
-              className='form-input rounded'
+              className='rounded px-4 py-2 w-full text-lg'
               value={employee.address}
               onChange={e => handleChange(e, 'address')}
             />
           </div>
           <div>
-            <label htmlFor='category' className='block'>
+            <label htmlFor='category' className='block text-xl font-semibold'>
               Category
             </label>
             <select
               id='category'
-              className='rounded'
+              className='rounded px-4 py-2 w-full text-lg'
               onChange={e => handleChange(e, 'category_id')}
               value={employee.category_id}
             >
@@ -152,14 +152,14 @@ const AddEmployee = () => {
             </select>
           </div>
           <div>
-            <label htmlFor='inputImage' className='block'>
+            <label htmlFor='inputImage' className='block text-xl font-semibold'>
               Select Image
             </label>
             <input
               type='file'
               id='inputImage'
               name='image'
-              className='form-input rounded'
+              className='rounded px-4 py-2 w-full text-lg'
               onChange={handleFileChange}
             />
           </div>
