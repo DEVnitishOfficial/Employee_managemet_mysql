@@ -165,4 +165,79 @@ router.route("/employee_details").get((req,res) => {
   })
 })
 
+// fetch employee by id
+router.route("/employee_details/:id").get((req,res) => {
+  const id = req.params.id;
+  const sql = "SELECT * FROM employee WHERE id = ?";
+  dbConnection.query(sql,[id],(error,result) => {
+    if(error){
+      return res.status(400)
+      .json({
+        success:false,
+        message : `Got error from employee_details by id query ${error}`
+      })
+    }else{
+      return res.status(200)
+      .json({
+        success: true,
+        message: "Fetched category data successfully",
+        data : result
+      })
+    }
+  })
+})
+ // update employee details
+router.put('/admin/edit_employee/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `UPDATE employee 
+      set name = ?, email = ?, salary = ?, address = ?, category_id = ? 
+      Where id = ?`
+  const values = [
+      req.body.name,
+      req.body.email,
+      req.body.salary,
+      req.body.address,
+      req.body.category_id
+  ]
+  dbConnection.query(sql,[...values, id], (error, result) => {
+      if(error){
+        return res.status(400)
+        .json({
+          success: false,
+          message: "Error from edit employee sql query",error})
+      }else{
+      return res.status(200)
+      .json({
+        success: true, 
+        message: "Employee details edited successfully",
+        data : result
+      
+      })
+
+      }
+  })
+})
+
+// delete employee
+router.delete('/admin/delete_employee/:id', (req,res) => {
+  const id = req.params.id;
+  const sql = "delete from employee where id = ?"
+  dbConnection.query(sql,[id], (error, result) => {
+      if(error){
+        return res.status(400)
+        .json({
+          success: false, 
+          message: `Got error while deleting the employee`
+        })
+      } else{
+      return res.status(200)
+      .json({
+        success: true,
+        message: "Employee deleted successfully",
+        data : result
+      })
+      }
+  })
+})
+
 export { router as adminRouter };

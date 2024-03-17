@@ -19,6 +19,18 @@ function Employee() {
       .catch((err) => console.log(err));
   }, []);
 
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:3002/auth/admin/delete_employee/${id}`)
+    .then(result => {
+      console.log('result from deleteing employee',result)
+        if(result.data.success) {
+            window.location.reload()
+        } else {
+            alert(result.data.message)
+        }
+    })
+  } 
+
   return (
     <div className='px-5 mt-10'>
     <div className='flex justify-center items-center'>
@@ -55,12 +67,14 @@ function Employee() {
         <td className="border px-4 py-2">{e.salary}</td>
         <td className="border px-4 py-2">
         <Link
+        to={`/admin/dashboard/edit_employee/` + e.id}
         className=" me-2 inline-block px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
       >
         Edit
       </Link>
       <button
         className="inline-block px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+        onClick={() => handleDelete(e.id)}
       >
         Delete
       </button>
