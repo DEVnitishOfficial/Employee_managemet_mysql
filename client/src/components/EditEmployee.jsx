@@ -13,7 +13,7 @@ const EditEmployee = () => {
         salary: '',
         address: '',
         category_id: '',
-        image: null
+        image: ''
       })
       const [category, setCategory] = useState([])
     
@@ -49,6 +49,10 @@ const EditEmployee = () => {
     
       const handleChange = (e, field) => {
         setEmployee({ ...employee, [field]: e.target.value })
+      }
+
+      const handleFileChange = e => {
+        setEmployee({ ...employee, image: e.target.files[0] })
       }
     
       const handleSubmit = ((e) => {
@@ -141,6 +145,18 @@ const EditEmployee = () => {
             })}
           </select>
         </div>
+        <div>
+            <label htmlFor='inputImage' className='block text-xl font-semibold'>
+              Select Image
+            </label>
+            <input
+              type='file'
+              id='inputImage'
+              name='image'
+              className='rounded px-4 py-2 w-full text-lg'
+              onChange={handleFileChange}
+            />
+          </div>
         <div>
           <button
             type='submit'

@@ -1,8 +1,20 @@
-import {  Outlet,Link } from "react-router-dom"
+import {  Outlet,Link, useNavigate } from "react-router-dom"
 import { FaPowerOff, FaTachometerAlt, FaUser, FaUsers } from "react-icons/fa";
 import { BiCategory } from "react-icons/bi";
+import axios from "axios";
 
 function AdminDashboard() {
+    const navigate = useNavigate()
+  axios.defaults.withCredentials = true
+    const handleLogout = () => {
+    axios.get('http://localhost:3002/auth/logout')
+    .then(result => {
+      if(result.data.success) { 
+        localStorage.removeItem("valid")
+        navigate('/')
+      }
+    })
+    }
   return (
     <div className="flex flex-col md:flex-row min-h-screen">
     {/* Sidebar */}
@@ -36,7 +48,7 @@ function AdminDashboard() {
                         <span className="hidden md:inline">Profile</span>
                     </Link>
                 </li>
-                <li>
+                <li onClick={handleLogout}>
                     <Link to="#" className="flex items-center px-4 py-2 text-gray-300 hover:bg-gray-700 cursor-pointer">
                         <FaPowerOff className="text-3xl mr-2" />
                         <span className="hidden md:inline">Logout</span>
