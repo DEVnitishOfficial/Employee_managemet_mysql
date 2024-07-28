@@ -131,6 +131,7 @@ router.route("/admin/add_employee").post(upload.single('image'), (req, res) => {
           req.file.filename,
           req.body.category_id
       ]
+      console.log('sql query error', sql,values)
       dbConnection.query(sql, [values], (err, result) => {
           if(err){
             return res.status(400)
@@ -239,5 +240,103 @@ router.delete('/admin/delete_employee/:id', (req,res) => {
       }
   })
 })
+
+// Admin count
+router.get('/admin_count', (req,res) => {
+  const sql = "select count(id) as admin from admin"
+  dbConnection.query(sql,(error, result) => {
+      if(error){
+        return res.status(400)
+        .json({
+          success: false, 
+          message: `Got error while fetching the employee count`
+        })
+      } else{
+      return res.status(200)
+      .json({
+        success: true,
+        message: "admin count fetched successfully",
+        data : result
+      })
+      }
+  })
+})
+
+// employee count
+router.get('/employee_count', (req,res) => {
+  const sql = "select count(id) as employee from employee"
+  dbConnection.query(sql,(error, result) => {
+      if(error){
+        return res.status(400)
+        .json({
+          success: false, 
+          message: `Got error while fetching the employee count`
+        })
+      } else{
+      return res.status(200)
+      .json({
+        success: true,
+        message: "employee count fetched successfully",
+        data : result
+      })
+      }
+  })
+})
+
+// salary count
+router.get('/salary_count', (req,res) => {
+  const id = req.params.id;
+  const sql = "select sum(salary) as salaryOFEmp from employee"
+  dbConnection.query(sql,(error, result) => {
+      if(error){
+        return res.status(400)
+        .json({
+          success: false, 
+          message: `Got error while fetching the employee salary count`
+        })
+      } else{
+      return res.status(200)
+      .json({
+        success: true,
+        message: "employee salary count fetched successfully",
+        data : result
+      })
+      }
+  })
+})
+
+
+// admin details
+router.get('/admin_details', (req,res) => {
+  const sql = "select * from admin"
+  dbConnection.query(sql, (error, result) => {
+      if(error){
+        return res.status(400)
+        .json({
+          success: false, 
+          message: `Got error while fetching the admin details`
+        })
+      } else{
+      return res.status(200)
+      .json({
+        success: true,
+        message: "admin details fetched successfully",
+        data : result
+      })
+      }
+  })
+})
+
+router.get('/logout', (req, res) => {
+  res.clearCookie('token')
+  return res.status(200)
+  .json({
+    success: true,
+    message: "admin logout successfully",
+  })
+})
+
+
+
 
 export { router as adminRouter };

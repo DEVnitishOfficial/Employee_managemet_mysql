@@ -2,9 +2,8 @@ import mysql from 'mysql'
 
 const dbConnection = mysql.createConnection({
     host:"localhost",
-    port:3307,
     user:"root",
-    password:"",
+    password:"mysql@123&?!",
     database:"employee_management"
 })
 
